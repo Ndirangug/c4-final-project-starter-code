@@ -19,11 +19,17 @@ export class TodosAccess {
         private readonly todosIndex = process.env.TODOS_ID_INDEX,) { }
 
 
-    async fetchTodos(): Promise<TodoItem[]> {
-        console.log('Getting all todos')
+    async fetchTodos(userId: string): Promise<TodoItem[]> {
+        logger.info('Getting all todos')
 
         const result = await this.docClient.query({
-            TableName: this.todosTable
+            TableName: this.todosTable,
+            IndexName: "userId",
+            KeyConditionExpression: 'userId = :userId',
+            ExpressionAttributeValues: {
+                ':userId': userId
+            },
+            Limit: 1,
         }).promise()
 
         const items = result.Items
@@ -31,12 +37,15 @@ export class TodosAccess {
     }
 
     async fetchTodo(id: string): Promise<TodoItem> {
-        console.log('Getting todo with id ', id)
+        logger.info('Getting todo with id ', id)
 
         const result = await this.docClient.query({
             TableName: this.todosTable,
-            IndexName: this.todosIndex,
-            KeyConditionExpression: `todoId = :${id}`,
+            IndexName: "todoId",
+            KeyConditionExpression: 'todoId = :todoId',
+            ExpressionAttributeValues: {
+                ':todoId': id
+            },
             Limit: 1,
         }).promise()
 
@@ -45,8 +54,8 @@ export class TodosAccess {
         return items[0] as TodoItem
     }
 
-    async updateTodo(id: string, todo: UpdateTodoRequest): Promise<TodoUpdate> {
-        console.log(`Updating todo with id ${id} with data: `, todo)
+    async updateTodo(id: string, todo: UpdateTodoRequest): Promise<void> {
+        logger.info(`Updating todo with id ${id} with data: `, todo)
         const result = await this.docClient.update({
             TableName: this.todosTable,
             Key: {
@@ -55,15 +64,15 @@ export class TodosAccess {
             ReturnValues: "ALL_NEW"
         }).promise()
 
-        return result.Attributes as TodoUpdate
+        return
     }
 
-    async deleteTodo(id: string): Promise<boolean> {
+    async deleteTodo(id: string): Promise<void> {
         const result = await this.docClient.delete({ TableName: this.todosTable, Key: { todoId: id } }).promise()
         const isSuccess = !!result.$response.error
 
-        console.log(`deleted successfully id todo with id ${id} `, isSuccess)
-        return isSuccess
+        logger.info(`deleted successfully id todo with id ${id} `, isSuccess)
+        return
     }
 
     async createTodo(todo: CreateTodoRequest): Promise<TodoItem> {

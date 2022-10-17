@@ -10,26 +10,26 @@ import { TodoUpdate } from '../models/TodoUpdate';
 
 const todoAccess = new TodosAccess()
 
-export function fetchTodos(): Promise<TodoItem[]> {
-    return todoAccess.fetchTodos()
+export async function fetchTodos(userId: string): Promise<TodoItem[]> {
+    return todoAccess.fetchTodos(userId)
 }
 
-export function fetchTodo(id: string): Promise<TodoItem> {
+export async function fetchTodo(id: string): Promise<TodoItem> {
     return todoAccess.fetchTodo(id)
 }
 
-export function updateTodo(id: string, todo: UpdateTodoRequest): Promise<TodoUpdate> {
+export async function updateTodo(id: string, todo: UpdateTodoRequest): Promise<void> {
     return todoAccess.updateTodo(id, todo)
 }
 
-export function deleteTodo(id: string): Promise<boolean> {
+export async function deleteTodo(id: string): Promise<void> {
     return todoAccess.deleteTodo(id)
 }
 
-export function createTodo(todo: CreateTodoRequest): Promise<TodoItem> {
+export async function createTodo(todo: CreateTodoRequest): Promise<TodoItem> {
     return todoAccess.createTodo(todo)
 }
 
-export function uploadTodoImage(todoId: string): Promise<string> {
+export async function uploadTodoImage(todoId: string): Promise<string> {
     return AttachmentUtils.uploadTodoImage(todoId)
 }
