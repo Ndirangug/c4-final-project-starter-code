@@ -1,6 +1,7 @@
 org: ndirangug
 app: serverless-todo-app
 service: serverless-todo-app
+frameworkVersion: ^3.23.0
 
 plugins:
   - serverless-webpack
@@ -14,7 +15,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   lambdaHashingVersion: "20201221"
 
   stage: ${opt:stage, 'dev'}
@@ -73,6 +74,7 @@ functions:
           path: todos
           cors: true
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
           documentation:
             summary: Get all todos
             description: Get all todos
@@ -143,6 +145,7 @@ functions:
           path: todos/{todoId}
           cors: true
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
           documentation:
             summary: Delete a todo
             description: Delete a todo
@@ -163,6 +166,7 @@ functions:
           path: todos/{todoId}/attachment
           cors: true
           authorizer: Auth
+          reqValidatorName: RequestBodyValidator
           documentation:
             summary: Generate Upload Url
             description: Generate direct uplaod url for s3

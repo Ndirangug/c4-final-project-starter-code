@@ -1,14 +1,11 @@
-import { todoAccess, TodosAccess } from './todosAcess'
+import { TodosAccess } from './todosAcess'
 import { AttachmentUtils } from './attachmentUtils';
 import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
-import { createLogger } from '../utils/logger'
-import * as uuid from 'uuid'
-import * as createError from 'http-errors'
-import { TodoUpdate } from '../models/TodoUpdate';
 
 const todoAccess = new TodosAccess()
+const attachmentUtils = new AttachmentUtils()
 
 export async function fetchTodos(userId: string): Promise<TodoItem[]> {
     return todoAccess.fetchTodos(userId)
@@ -31,5 +28,5 @@ export async function createTodo(todo: CreateTodoRequest): Promise<TodoItem> {
 }
 
 export async function uploadTodoImage(todoId: string): Promise<string> {
-    return AttachmentUtils.uploadTodoImage(todoId)
+    return attachmentUtils.uploadTodoImage(todoId)
 }

@@ -6,7 +6,7 @@ import { cors, httpErrorHandler } from 'middy/middlewares'
 
 import { updateTodo } from '../../helpers/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import { getUserId } from '../utils'
+//import { getUserId } from '../utils'
 
 import { createLogger } from "../../utils/logger";
 
@@ -19,7 +19,7 @@ export const handler = middy(
 
 
     try {
-      const userId = getUserId(event)
+      //const userId = getUserId(event)
       const result = await updateTodo(todoId, updatedTodo)
 
       return { statusCode: 200, body: JSON.stringify(result) }

@@ -3,7 +3,6 @@ import * as AWSXRay from 'aws-xray-sdk'
 import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import { createLogger } from '../utils/logger'
 import { TodoItem } from '../models/TodoItem'
-import { TodoUpdate } from '../models/TodoUpdate';
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 
@@ -16,7 +15,7 @@ export class TodosAccess {
     constructor(
         private readonly docClient: DocumentClient = createDynamoDBClient(),
         private readonly todosTable = process.env.TODOS_TABLE,
-        private readonly todosIndex = process.env.TODOS_ID_INDEX,) { }
+    ) { }
 
 
     async fetchTodos(userId: string): Promise<TodoItem[]> {
@@ -56,7 +55,7 @@ export class TodosAccess {
 
     async updateTodo(id: string, todo: UpdateTodoRequest): Promise<void> {
         logger.info(`Updating todo with id ${id} with data: `, todo)
-        const result = await this.docClient.update({
+        await this.docClient.update({
             TableName: this.todosTable,
             Key: {
                 todoId: id
