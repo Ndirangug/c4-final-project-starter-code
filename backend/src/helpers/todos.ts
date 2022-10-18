@@ -28,5 +28,5 @@ export async function createTodo(todo: CreateTodoRequest): Promise<TodoItem> {
 }
 
 export async function uploadTodoImage(todoId: string): Promise<string> {
-    return attachmentUtils.uploadTodoImage(todoId)
+    return attachmentUtils.getSignedUrl(todoId)
 }

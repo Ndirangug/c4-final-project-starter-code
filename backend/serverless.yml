@@ -31,11 +31,15 @@ provider:
     TODOS_TABLE: Todos-${self:provider.stage}
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
     TODOS_ID_INDEX: todoId
-    ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.stage}
+    ACCOUNT_ID: 170170821497
+    ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-${self:provider.environemnt.ACCOUNT_ID}-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
+    AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
+    AUTH_0_SECRET_FIELD: auth0Secret
 
   logs:
     # Enable API Gateway logs
+    frameworkLambda: true
     restApi: true
 
   iam:
@@ -65,9 +69,11 @@ custom:
 functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
+    tracing: true
 
   GetTodos:
     handler: src/lambda/http/getTodos.handler
+    tracing: true
     events:
       - http:
           method: get
@@ -91,6 +97,7 @@ functions:
   # To validate incoming HTTP requests, we have provided the request schemas in function definition below.
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
+    tracing: true
     events:
       - http:
           method: post
@@ -115,6 +122,7 @@ functions:
 
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
+    tracing: true
     events:
       - http:
           method: patch
@@ -139,6 +147,7 @@ functions:
 
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
+    tracing: true
     events:
       - http:
           method: delete
@@ -160,6 +169,7 @@ functions:
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
+    tracing: true
     events:
       - http:
           method: post
@@ -224,7 +234,6 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL # What attributes will be copied to an index
-
     # Complete the bucket properties below.
     # Do not forget to add the CorsConfiguration propoerty
     AttachmentsBucket:

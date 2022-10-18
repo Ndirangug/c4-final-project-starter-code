@@ -1,7 +1,8 @@
 //@ts-nocheck
 import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
 import 'source-map-support/register'
-
+import * as middy from 'middy'
+import { secretsManager } from 'middy/middlewares'
 import { verify, decode } from 'jsonwebtoken'
 import { createLogger } from '../../utils/logger'
 import Axios from 'axios'
@@ -10,12 +11,16 @@ import { JwtPayload } from '../../auth/JwtPayload'
 
 const logger = createLogger('auth')
 
-// TODO: Provide a URL that can be used to download a certificate that can be used
+
+const secretId = process.env.AUTH_0_SECRET_ID
+const secretField = process.env.AUTH_0_SECRET_FIELD
+
+// Provide a URL that can be used to download a certificate that can be used
 // to verify JWT token signature.
 // To get this URL you need to go to an Auth0 page -> Show Advanced Settings -> Endpoints -> JSON Web Key Set
 const jwksUrl = 'https://dev-weakvw91.us.auth0.com/.well-known/jwks.json'
 
-export const handler = async (
+export const handler = middy(async (
   event: CustomAuthorizerEvent
 ): Promise<CustomAuthorizerResult> => {
   logger.info('Authorizing a user', event.authorizationToken)
@@ -53,16 +58,24 @@ export const handler = async (
       }
     }
   }
-}
+})
 
 async function verifyToken(authHeader: string): Promise<JwtPayload> {
   const token = getToken(authHeader)
   const jwt: Jwt = decode(token, { complete: true }) as Jwt
 
-  // TODO: Implement token verification
-  // You should implement it similarly to how it was implemented for the exercise for the lesson 5
-  // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
-  return undefined
+  const response = await Axios.get(jwksUrl)
+  logger.info("fetchimg certificate from Auth0", response)
+  logger.info("fetchimg certificate from Auth0 data", response.data)
+
+  if (response.data && response.status.toString().startsWith('20')) {
+    const cert = response.data
+    // TODO: Implement token verification
+    // You should implement it similarly to how it was implemented for the exercise for the lesson 5
+    // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
+    return verify(token, cert, { algorithms: ['RS256'] }) as JwtToken
+  }
+  else return Promise.reject(`Error in getting the certificate ${response.status} ${response.statusText}`)
 }
 
 function getToken(authHeader: string): string {
@@ -76,3 +89,16 @@ function getToken(authHeader: string): string {
 
   return token
 }
+
+handler.use(
+  secretsManager({
+    awsSdkOptions: { region: 'us-east-1' },
+    cache: true,
+    cacheExpiryInMillis: 60000,
+    // Throw an error if can't read the secret
+    throwOnFailedCall: true,
+    secrets: {
+      AUTH0_SECRET: secretId
+    }
+  })
+)
