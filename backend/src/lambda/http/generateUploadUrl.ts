@@ -17,6 +17,10 @@ export const handler = middy(
       const uploadUrl = await attachmentUtils.getSignedUrl(todoId)
       return {
         statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         body: JSON.stringify({
           uploadUrl
         })
@@ -25,6 +29,10 @@ export const handler = middy(
     catch (error) {
       logger.error(error)
       return {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         statusCode: 500,
         body: JSON.stringify(error)
       }

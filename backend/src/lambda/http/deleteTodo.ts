@@ -17,12 +17,20 @@ export const handler = middy(
       const todoId = event.pathParameters.todoId
       const result = await deleteTodo(todoId)
       return {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         statusCode: 200,
         body: JSON.stringify(result)
       }
     } catch (error) {
       logger.error(error)
       return {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         statusCode: 500,
         body: JSON.stringify(error)
       }

@@ -19,11 +19,19 @@ export const handler = middy(
 
       return {
         statusCode: 201,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         body: JSON.stringify(result)
       }
     } catch (error) {
       logger.error(error)
       return {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true,
+        },
         statusCode: 500,
         body: JSON.stringify(error)
       }
