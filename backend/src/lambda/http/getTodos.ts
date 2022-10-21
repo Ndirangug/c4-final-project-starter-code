@@ -11,39 +11,39 @@ import { createLogger } from "../../utils/logger";
 
 const logger = createLogger('GetTodos');
 // Get all TODO items for a current user
-const handler = middy(
-  async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    // Write your code here
+//const handler = middy(
+const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  // Write your code here
 
-    try {
-      const userId = getUserId(event)
-      const result = await getTodosForUser(userId)
+  try {
+    const userId = getUserId(event)
+    const result = await getTodosForUser(userId)
 
-      return {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
-        body: JSON.stringify(result)
-      }
-
-    } catch (error) {
-      logger.error(error)
-      return {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
-        statusCode: 500,
-        body: JSON.stringify(error)
-      }
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      body: JSON.stringify(result)
     }
 
+  } catch (error) {
+    logger.error(error)
+    return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      statusCode: 500,
+      body: JSON.stringify(error)
+    }
   }
-).use(httpErrorHandler())
-  .use(
-    cors()
-  )
+
+}
+// ).use(httpErrorHandler())
+//   .use(
+//     cors()
+//   )
 
 module.exports = { handler }

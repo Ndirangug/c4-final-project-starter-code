@@ -9,8 +9,8 @@ import { createLogger } from "../../utils/logger";
 
 const logger = createLogger('CreateTodo');
 
-export const handler = middy(
-  async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+// export const handler = middy(
+ export const handler =  async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const newTodo: CreateTodoRequest = JSON.parse(event.body)
     //  Implement creating a new TODO item
     try {
@@ -38,13 +38,13 @@ export const handler = middy(
     }
 
   }
-);
+//);
 
-handler
-  .use(httpErrorHandler())
-  .use(
-    cors({
-      credentials: true,
-      origin: '*'
-    })
-  )
+// handler
+//   .use(httpErrorHandler())
+//   .use(
+//     cors({
+//       credentials: true,
+//       origin: '*'
+//     })
+//   )

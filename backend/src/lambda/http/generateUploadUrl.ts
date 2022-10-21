@@ -8,8 +8,8 @@ import { createLogger } from "../../utils/logger";
 
 const logger = createLogger('DeleteTodo');
 
-export const handler = middy(
-  async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+//export const handler = middy(
+export const handler =  async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const todoId = event.pathParameters.todoId
 
     try {
@@ -41,13 +41,13 @@ export const handler = middy(
 
     return undefined
   }
-)
+//)
 
-handler
-  .use(httpErrorHandler())
-  .use(
-    cors({
-      credentials: true,
-      origin: '*'
-    })
-  )
+// handler
+//   .use(httpErrorHandler())
+//   .use(
+//     cors({
+//       credentials: true,
+//       origin: '*'
+//     })
+//   )
