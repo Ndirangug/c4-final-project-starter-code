@@ -1,3 +1,4 @@
+//@ts-nocheck
 import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'

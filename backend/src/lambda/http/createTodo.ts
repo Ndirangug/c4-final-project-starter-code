@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
 import * as middy from 'middy'
@@ -10,34 +11,34 @@ import { createLogger } from "../../utils/logger";
 const logger = createLogger('CreateTodo');
 
 // export const handler = middy(
- export const handler =  async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-    const newTodo: CreateTodoRequest = JSON.parse(event.body)
-    //  Implement creating a new TODO item
-    try {
-      const userId = getUserId(event)
-      const result = await createTodo({ ...newTodo, userId })
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  const newTodo: CreateTodoRequest = JSON.parse(event.body)
+  //  Implement creating a new TODO item
+  try {
+    const userId = getUserId(event)
+    const result = await createTodo({ ...newTodo, userId })
 
-      return {
-        statusCode: 201,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
-        body: JSON.stringify(result)
-      }
-    } catch (error) {
-      logger.error(error)
-      return {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true,
-        },
-        statusCode: 500,
-        body: JSON.stringify(error)
-      }
+    return {
+      statusCode: 201,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      body: JSON.stringify(result)
     }
-
+  } catch (error) {
+    logger.error(error)
+    return {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      },
+      statusCode: 500,
+      body: JSON.stringify(error)
+    }
   }
+
+}
 //);
 
 // handler
