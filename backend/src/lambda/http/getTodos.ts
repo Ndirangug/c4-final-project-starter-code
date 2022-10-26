@@ -13,7 +13,7 @@ import { createLogger } from "../../utils/logger";
 const logger = createLogger('GetTodos');
 // Get all TODO items for a current user
 //const handler = middy(
-const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   // Write your code here
 
   try {
@@ -47,4 +47,3 @@ const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResu
 //     cors()
 //   )
 
-module.exports = { handler }

@@ -1,0 +1,40 @@
+{
+    "keys": [
+        {
+            "alg": "RS256",
+            "e": "AQAB",
+            "kid": "3c5y3g_V7OqM48ps_orT8",
+            "kty": "RSA",
+            "n": "pBxfFdc9r7F9Hobc6yihzTLX5PtqY53jI97AaoiOhbG7fs4LHDhxbtcOlwkc76SLIH_b7LALh-_jAsmVYO_0tzyk9xXBsndRqi-vWM4aDWWFJvaS7uBT6kxBnUz4DgHmyCtNMhhMrGSetckqloODnG2V3hpWWdf7N_pQazNls3wJDYUD2KOW_zEsLUhJM3uodGS2qIpnJW7b-t-DrVBoH_kUqz7FB4WTfH0jzuer_QZEr-pEMSxBGX0jde0D3YhCC0SV3VjDdjtP33HP6DYF0CsueC058bs6ItdVeQtJkjOVAqtSf5bGs7uZd36DRB1bHjMrs40Daru4-v2FbW4SfQ",
+            "use": "sig",
+            "x5c": [
+                "MIIDDTCCAfWgAwIBAgIJXmPejVca9vCgMA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNVBAMTGWRldi13ZWFrdnc5MS51cy5hdXRoMC5jb20wHhcNMjIxMDE3MTEzMjExWhcNMzYwNjI1MTEzMjExWjAkMSIwIAYDVQQDExlkZXYtd2Vha3Z3OTEudXMuYXV0aDAuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApBxfFdc9r7F9Hobc6yihzTLX5PtqY53jI97AaoiOhbG7fs4LHDhxbtcOlwkc76SLIH/b7LALh+/jAsmVYO/0tzyk9xXBsndRqi+vWM4aDWWFJvaS7uBT6kxBnUz4DgHmyCtNMhhMrGSetckqloODnG2V3hpWWdf7N/pQazNls3wJDYUD2KOW/zEsLUhJM3uodGS2qIpnJW7b+t+DrVBoH/kUqz7FB4WTfH0jzuer/QZEr+pEMSxBGX0jde0D3YhCC0SV3VjDdjtP33HP6DYF0CsueC058bs6ItdVeQtJkjOVAqtSf5bGs7uZd36DRB1bHjMrs40Daru4+v2FbW4SfQIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSlTkwOCcm36fxKDpELVGmNuRP7DTAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEBAFLYS2RNi6hVYFp1OS8z3YgqLb1Cy6PS/FvjM9yVgtx0FwCghS/oSroLFtHlTmK0GVJECy7XkW6nmSx3t0pQ9+VxO/rs5neOQsu50+xyrpn5O878gz1PiiD6deKCw9oV5jth15l8GB02FSNNsbZifqOioNPFLwOCEL1s/PIA+FGMdt2EYUnYp4bb7CUqApACBdeOQddTFCfHH8rHCKbZhr1NkfOBXrQaIFXVgi0ucqBJcdv0OtkxOFcLEjVaO/SDxh35fQ7KLdkkeBt35k3w+a6dvp3UlTcrWpPpf90v6Idtot+7fWFBBOkWjwA/Fem0gvid+B3RTcicKEAQBI9+LVg="
+            ],
+            "x5t": "dvT4Hxl9hvrU5dul52CetTamUCY"
+        },
+        {
+            "alg": "RS256",
+            "e": "AQAB",
+            "kid": "mOUfxRjSVPE5RTid2Gfwy",
+            "kty": "RSA",
+            "n": "yqlTAuvLYL4Ipe-LryLkbqTTcGKNpI5Cy4qVRCW_XOl9a2Nz0dtGDQhJkXfCdqkV9SAnsobq-i07U_JqNSqzp6QEGJV0dKcmn44ARtkpg6CexUSVmyODSzsmy70e_OT8UkYioeGqIoyGRQaJEpTv2deOTU7dbVQgBH0_kzGh_gH_k9YYGTBgvxhx3OuVDUof6Qbof--48m87i6FTWFeDALls-4W5hOKHri0GxdPupM-Rz26lNL8F8kcKTURdurV11B1xWOSQBf3tBHNM_lGpwclNOz9teVOQ2Cgel6XZmuNfrekwq2B75-Q9i152_KyNovj4kcrUvfLhMtVIBWrMzw",
+            "use": "sig",
+            "x5c": [
+                "MIIDDTCCAfWgAwIBAgIJRvxVOQ4ioaPoMA0GCSqGSIb3DQEBCwUAMCQxIjAgBgNVBAMTGWRldi13ZWFrdnc5MS51cy5hdXRoMC5jb20wHhcNMjIxMDE3MTEzMjExWhcNMzYwNjI1MTEzMjExWjAkMSIwIAYDVQQDExlkZXYtd2Vha3Z3OTEudXMuYXV0aDAuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyqlTAuvLYL4Ipe+LryLkbqTTcGKNpI5Cy4qVRCW/XOl9a2Nz0dtGDQhJkXfCdqkV9SAnsobq+i07U/JqNSqzp6QEGJV0dKcmn44ARtkpg6CexUSVmyODSzsmy70e/OT8UkYioeGqIoyGRQaJEpTv2deOTU7dbVQgBH0/kzGh/gH/k9YYGTBgvxhx3OuVDUof6Qbof++48m87i6FTWFeDALls+4W5hOKHri0GxdPupM+Rz26lNL8F8kcKTURdurV11B1xWOSQBf3tBHNM/lGpwclNOz9teVOQ2Cgel6XZmuNfrekwq2B75+Q9i152/KyNovj4kcrUvfLhMtVIBWrMzwIDAQABo0IwQDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBTAKvYngW3FJ5g3kOnNCxqBbeAIYDAOBgNVHQ8BAf8EBAMCAoQwDQYJKoZIhvcNAQELBQADggEBAEC9KSoDgMbPKIUpUEo21yXPr7YMSAeypn1VP+mZs52mEORjHQg13644U55wCdLRXpMuRMpAQkAHwnq4JlfzBGEa7x1JSLBVuXW7uwYWoBaz2r+dfJGcxNfnM50e2bAoD2vfrnChV7e+TboGE97ltHVGBfcgfxoetg3oubagUnubvxjhgB21q9z9ROznmjkyEuIkGlj6raiimeQuhW+7LBDUYHIEWrE2UUDLPinuG4no8Y/RDbjnixsk0C1/Ns686fst+9Z7Jg1DRFLaaioVhqlNGwHiwepEDqXMSbZhpWkOnQGjuOPstq/hvLnzXkLAvP8nG/dz567EoWv8d3fUZ2s="
+            ],
+            "x5t": "ol_SnBLAbZOfncye6Yf_XkX2dt8"
+        }
+    ],
+    "level": "info",
+    "message": "fetched certfiicate cert",
+    "name": "auth"
+}
+
+{
+    "authorizationToken": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNjNXkzZ19WN09xTTQ4cHNfb3JUOCJ9.eyJpc3MiOiJodHRwczovL2Rldi13ZWFrdnc5MS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDA0MjAyNzAwMTg3OTg0NDg0NTUiLCJhdWQiOiJwaHVJQjdQSmNvQ2daTDU3V0djTFZiMlBCWkZESFJsdCIsImlhdCI6MTY2NjY1MjIwMywiZXhwIjoxNjY2Njg4MjAzLCJhdF9oYXNoIjoiTGcyY1V0V196blNma1ZGSFd1bmlLdyIsInNpZCI6IjB1MEhJUWx1dVlZQ0J3WUJKdEZkMm4xWk5xZnl3MVIxIiwibm9uY2UiOiJ5NmJ1eXRxeXFrY2ZqSUNRUHhtcVlmMG5NUXd0ek1VYyJ9.XVUEuQiGTbzZ5pLnPdzIeUfUWP8Ir1HzlJC1XJeckSJQeb3yW6Db9szW5T1GbznblRX_z7YAZcAJi5vz9OmW4qemWfEBI-nvPdtF_LloX-OglAqyXGeR4pMztC9q9bjHxLNyB_TKTJTVCbOIQkBlgmUhaM15wG-5lAqLpMt6FjVy-dsznqkjjjGgsu9TSKbhPER4PF2CWsBfbwUZnhHrW543qJqKdtY47PO00mZJ8hlG4OTJR-lbXYPvuBD5ke7Gb43meegY4Y7cVhQfchh2pyROAIIYK1qJbNsAcElzC-ysDD0Mndcx-ZQ8MdtDAVkCen53oV1lGduphlM_3uErWw",
+    "level": "info",
+    "message": "Authorizing a user event context",
+    "methodArn": "arn:aws:execute-api:us-east-1:218252741287:hotkuahhr8/dev/GET/todos",
+    "name": "auth",
+    "type": "TOKEN"
+}

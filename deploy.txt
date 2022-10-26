@@ -1,0 +1,7 @@
+Environment: linux, node 14.20.0, framework 3.23.0, plugin 6.2.2, SDK 4.3.2
+Docs:        docs.serverless.com
+Support:     forum.serverless.com
+Bugs:        github.com/serverless/serverless/issues
+
+Error:
+This command can only be run in a Serverless service directory. Make sure to reference a valid config file in the current working directory if you're using a custom config file

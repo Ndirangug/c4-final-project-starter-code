@@ -32,6 +32,7 @@ export class TodosAccess {
         }).promise()
 
         const items = result.Items
+        logger.info('items', items)
         return items as TodoItem[]
     }
 

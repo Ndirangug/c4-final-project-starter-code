@@ -70,6 +70,7 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
     tracing: true
+    
 
   GetTodos:
     handler: src/lambda/http/getTodos.handler
