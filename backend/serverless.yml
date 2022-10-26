@@ -28,7 +28,7 @@ provider:
   # Use these variables in the functions and resouorces section below. For example,
   # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
-    TODOS_TABLE: Todos-${self:provider.stage}
+    TODOS_TABLE: Todos-${self:provider.stage}-2
     TODOS_CREATED_AT_INDEX: CreatedAtIndex
     TODOS_ID_INDEX: todoId
     ACCOUNT_ID: 170170821497
@@ -70,7 +70,6 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
     tracing: true
-    
 
   GetTodos:
     handler: src/lambda/http/getTodos.handler
@@ -89,8 +88,11 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:Query
-          - dynamodb:Scan
         Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}"
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/userId"
 
   # Configure this function -
   # Provide iamRoleStatements property. Decide the Actions and AWS Resource.
@@ -212,9 +214,9 @@ resources:
           - AttributeName: userId
             AttributeType: S
         KeySchema:
-          - AttributeName: todoId
-            KeyType: HASH
           - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: todoId
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}

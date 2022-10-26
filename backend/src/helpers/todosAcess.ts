@@ -20,17 +20,25 @@ export class TodosAccess {
 
     async fetchTodos(userId: string): Promise<TodoItem[]> {
         logger.info('Getting all todos')
+        logger.info(`query params table ${this.todosTable} and userId ${userId}`)
+        let result;
+        try {
+            result = await this.docClient.query({
+                TableName: this.todosTable,
+                ExpressionAttributeNames: {
+                    "#userId": "userId",
+                },
+                KeyConditionExpression: '#userId = :userId',
+                ExpressionAttributeValues: {
+                    ':userId': userId
+                },
+            }).promise()
 
-        const result = await this.docClient.query({
-            TableName: this.todosTable,
-            IndexName: "userId",
-            KeyConditionExpression: 'userId = :userId',
-            ExpressionAttributeValues: {
-                ':userId': userId
-            },
-            Limit: 1,
-        }).promise()
+        } catch (err) {
+            logger.info(`error querying todos ${err}`, err)
+        }
 
+        logger.info('BEOFRE items', result)
         const items = result.Items
         logger.info('items', items)
         return items as TodoItem[]
@@ -56,11 +64,30 @@ export class TodosAccess {
 
     async updateTodo(id: string, todo: UpdateTodoRequest): Promise<void> {
         logger.info(`Updating todo with id ${id} with data: `, todo)
+
+        let updateExpression = 'set';
+        let ExpressionAttributeNames = {};
+        let ExpressionAttributeValues = {};
+        for (const property in todo) {
+            updateExpression += ` #${property} = :${property} ,`;
+            ExpressionAttributeNames['#' + property] = property;
+            ExpressionAttributeValues[':' + property] = todo[property];
+        }
+
+
+        console.log(ExpressionAttributeNames);
+
+
+        updateExpression = updateExpression.slice(0, -1);
+
         await this.docClient.update({
             TableName: this.todosTable,
             Key: {
                 todoId: id
             },
+            UpdateExpression: updateExpression,
+            ExpressionAttributeNames: ExpressionAttributeNames,
+            ExpressionAttributeValues: ExpressionAttributeValues,
             ReturnValues: "ALL_NEW"
         }).promise()
 
@@ -76,9 +103,10 @@ export class TodosAccess {
     }
 
     async createTodo(todo: CreateTodoRequest): Promise<TodoItem> {
+        logger.info('Creating todo with data: ', todo)
         const result = await this.docClient.put({
             TableName: this.todosTable,
-            Item: todo
+            Item: { ...todo, todoId: todo.userId + Date.now() }
         }).promise()
 
         return result.$response.data as TodoItem
@@ -87,9 +115,10 @@ export class TodosAccess {
 
 
 function createDynamoDBClient() {
+    console.log(`Creating a local DynamoDB instance ${process.env.IS_OFFLINE}`)
     if (process.env.IS_OFFLINE) {
         console.log('Creating a local DynamoDB instance')
-        return new XAWS.DynamoDB.DocumentClient({
+        return new AWS.DynamoDB.DocumentClient({
             region: 'localhost',
             endpoint: 'http://localhost:8000'
         })
