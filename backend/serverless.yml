@@ -129,7 +129,7 @@ functions:
     events:
       - http:
           method: patch
-          path: todos/{todoId}
+          path: todos/{id}
           cors: true
           authorizer: Auth
           reqValidatorName: RequestBodyValidator
@@ -154,7 +154,7 @@ functions:
     events:
       - http:
           method: delete
-          path: todos/{userId}/{todoId}
+          path: todos/{userId}/{todoToDelete}
           cors: true
           authorizer: Auth
           reqValidatorName: RequestBodyValidator
@@ -176,7 +176,7 @@ functions:
     events:
       - http:
           method: post
-          path: todos/{todoId}/attachment
+          path: todos/{todo}/attachment
           cors: true
           authorizer: Auth
           reqValidatorName: RequestBodyValidator
