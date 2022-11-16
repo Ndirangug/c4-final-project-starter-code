@@ -6,6 +6,7 @@ import { TodoItem } from '../models/TodoItem'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 
+
 const XAWS = AWSXRay.captureAWS(AWS)
 
 const logger = createLogger('TodosAccess')
@@ -94,11 +95,12 @@ export class TodosAccess {
         return
     }
 
-    async deleteTodo(id: string): Promise<void> {
-        const result = await this.docClient.delete({ TableName: this.todosTable, Key: { todoId: id } }).promise()
+    async deleteTodo(todoId: string, userId: string): Promise<void> {
+        logger.info(`attempt to delete todo with todo id ${todoId} user ${userId} `)
+        const result = await this.docClient.delete({ TableName: this.todosTable, Key: { todoId, userId } }).promise()
         const isSuccess = !!result.$response.error
 
-        logger.info(`deleted successfully id todo with id ${id} `, isSuccess)
+        logger.info(`deleted successfully id todo with id ${todoId} `, isSuccess)
         return
     }
 

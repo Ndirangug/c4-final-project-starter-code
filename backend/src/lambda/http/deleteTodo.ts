@@ -16,7 +16,8 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
   try {
     const todoId = event.pathParameters.todoId
-    const result = await deleteTodo(todoId)
+    const userId = event.pathParameters.userId
+    const result = await deleteTodo(todoId, userId)
     return {
       headers: {
         'Access-Control-Allow-Origin': '*',

@@ -22,14 +22,14 @@ provider:
   region: ${opt:region, 'us-east-1'}
 
   tracing:
-    lambda: true
-    apiGateway: true
+    lambda: false
+    apiGateway: false
 
   # Use these variables in the functions and resouorces section below. For example,
   # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
   environment:
     TODOS_TABLE: Todos-${self:provider.stage}-2
-    TODOS_CREATED_AT_INDEX: CreatedAtIndex
+    TODOS_PRIMARY_INDEX: PrimaryIndex
     TODOS_ID_INDEX: todoId
     ACCOUNT_ID: 170170821497
     ATTACHMENT_S3_BUCKET: serverless-c4-todo-images-170170821497-${self:provider.stage}
@@ -154,7 +154,7 @@ functions:
     events:
       - http:
           method: delete
-          path: todos/{todoId}
+          path: todos/{userId}/{todoId}
           cors: true
           authorizer: Auth
           reqValidatorName: RequestBodyValidator
@@ -221,11 +221,11 @@ resources:
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.TODOS_TABLE}
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.TODOS_CREATED_AT_INDEX}
+          - IndexName: ${self:provider.environment.TODOS_PRIMARY_INDEX}
             KeySchema:
               - AttributeName: userId
                 KeyType: HASH
-              - AttributeName: createdAt
+              - AttributeName: todoId
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL # What attributes will be copied to an index

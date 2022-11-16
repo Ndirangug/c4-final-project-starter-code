@@ -55,14 +55,15 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
         todos: [...this.state.todos, newTodo],
         newTodoName: ''
       })
-    } catch {
+    } catch (err) {
+      console.log('Error creating todo: ', err)
       alert('Todo creation failed')
     }
   }
 
-  onTodoDelete = async (todoId: string) => {
+  onTodoDelete = async (todoId: string, userId: string) => {
     try {
-      await deleteTodo(this.props.auth.getIdToken(), todoId)
+      await deleteTodo(this.props.auth.getIdToken(), todoId, userId)
       this.setState({
         todos: this.state.todos.filter((todo) => todo.todoId !== todoId)
       })
@@ -92,12 +93,16 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
   async componentDidMount() {
     try {
       const todos = await getTodos(this.props.auth.getIdToken())
-      this.setState({
-        todos,
-        loadingTodos: false
-      })
-
-      console.log('after set state, todos: ', this.state.todos)
+      console.log('fetched todos: ', todos)
+      this.setState(
+        {
+          todos,
+          loadingTodos: false
+        },
+        () => {
+          console.log('after set state, todos: ', this.state)
+        }
+      )
     } catch (e) {
       alert(`Failed to fetch todos: ${(e as Error).message}`)
     }
@@ -162,6 +167,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
     return (
       <Grid padded>
         {this.state.todos?.map((todo, pos) => {
+          console.log('todos to render', todo)
           return (
             <Grid.Row key={todo.todoId}>
               <Grid.Column width={1} verticalAlign="middle">
@@ -189,7 +195,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Button
                   icon
                   color="red"
-                  onClick={() => this.onTodoDelete(todo.todoId)}
+                  onClick={() => this.onTodoDelete(todo.todoId, todo.userId)} //todo fetch userId
                 >
                   <Icon name="delete" />
                 </Button>

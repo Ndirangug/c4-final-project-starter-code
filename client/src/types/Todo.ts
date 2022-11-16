@@ -1,4 +1,5 @@
 export interface Todo {
+  userId: string
   todoId: string
   createdAt: string
   name: string
