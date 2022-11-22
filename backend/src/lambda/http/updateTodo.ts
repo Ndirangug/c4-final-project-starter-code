@@ -1,54 +1,40 @@
-//@ts-nocheck
 import 'source-map-support/register'
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { updateTodo } from '../../helpers/todos'
+import { updateTodo } from '../../businessLogic/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-//import { getUserId } from '../utils'
+import { getUserId } from '../utils';
+import { createLogger } from '../../utils/logger'
 
-import { createLogger } from "../../utils/logger";
+const logger = createLogger('UpdateTodo');
 
-const logger = createLogger('UpdateTodos');
+export const handler = middy(
+  async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+    const todoId = event.pathParameters.todoId
+    const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
+    // Update a TODO item with the provided id using values in the "updatedTodo" object
+    logger.info("Updating a todo");
 
-//export const handler = middy(
-export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  const todoId = event.pathParameters.id
-  const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
+    const userId = getUserId(event);
 
+    await updateTodo(todoId, updatedTodo, userId);
 
-  try {
-    //const userId = getUserId(event)
-    const result = await updateTodo(todoId, updatedTodo)
+    logger.info("Updated")
 
     return {
-      statusCode: 200, headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      }, body: JSON.stringify(result)
-    }
-
-  } catch (error) {
-    logger.error(error)
-    return {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
-      },
-      statusCode: 500,
-      body: JSON.stringify(error)
+      statusCode: 204,
+      body: ""
     }
   }
-}
-//);
+)
 
-// handler
-//   .use(httpErrorHandler())
-//   .use(
-//     cors({
-//       credentials: true,
-//       origin: '*'
-//     })
-//   )
+handler
+  .use(httpErrorHandler())
+  .use(
+    cors({
+      credentials: true
+    })
+  )

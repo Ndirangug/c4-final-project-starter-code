@@ -13,8 +13,8 @@ export async function getTodos(idToken: string): Promise<Todo[]> {
       'Authorization': `Bearer ${idToken}`
     },
   })
-  console.log('Todos:', response.data)
-  return response.data
+  console.log('Todos:', response.data.items)
+  return response.data.items
 }
 
 export async function createTodo(
@@ -27,6 +27,8 @@ export async function createTodo(
       'Authorization': `Bearer ${idToken}`
     }
   })
+
+  console.log("create todo", response.data)
   return response.data
 }
 
@@ -46,10 +48,9 @@ export async function patchTodo(
 export async function deleteTodo(
   idToken: string,
   todoId: string,
-  userId: string
 ): Promise<void> {
   console.log("todo apis delete todo id ", todoId)
-  await Axios.delete(`${apiEndpoint}/todos/${userId}/${todoId}`, {
+  await Axios.delete(`${apiEndpoint}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`

@@ -1,8 +1,6 @@
-//@ts-nocheck
-import { APIGatewayTokenAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
+import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
 import 'source-map-support/register'
-import * as middy from 'middy'
-import { secretsManager } from 'middy/middlewares'
+
 import { verify, decode } from 'jsonwebtoken'
 import { createLogger } from '../../utils/logger'
 import Axios from 'axios'
@@ -11,21 +9,15 @@ import { JwtPayload } from '../../auth/JwtPayload'
 
 const logger = createLogger('auth')
 
-
-// const secretId = process.env.AUTH_0_SECRET_ID
-// const secretField = process.env.AUTH_0_SECRET_FIELD
-
 // Provide a URL that can be used to download a certificate that can be used
 // to verify JWT token signature.
 // To get this URL you need to go to an Auth0 page -> Show Advanced Settings -> Endpoints -> JSON Web Key Set
 const jwksUrl = 'https://dev-weakvw91.us.auth0.com/.well-known/jwks.json'
 
-export const handler = middy(async (
-  event: APIGatewayTokenAuthorizerEvent
+export const handler = async (
+  event: CustomAuthorizerEvent
 ): Promise<CustomAuthorizerResult> => {
-  logger.info('Authorizing a user authtoken', event.authorizationToken)
-
-
+  logger.info('Authorizing a user', event.authorizationToken)
   try {
     const jwtToken = await verifyToken(event.authorizationToken)
     logger.info('User was authorized', jwtToken)
@@ -60,28 +52,28 @@ export const handler = middy(async (
       }
     }
   }
-})
+}
 
 async function verifyToken(authHeader: string): Promise<JwtPayload> {
   const token = getToken(authHeader)
   const jwt: Jwt = decode(token, { complete: true }) as Jwt
 
-  const response = await Axios.get(jwksUrl)
+  // Implement token verification
+  // You should implement it similarly to how it was implemented for the exercise for the lesson 5
+  // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
+  const jwks = await Axios.get(jwksUrl);
+  const jwksKey = jwks.data["keys"][0];
 
+  if (jwt.header.alg != jwksKey.alg) {
+    throw new Error("Unmatched algorithm");
 
-  if (response.data && response.status.toString().startsWith('20')) {
-    const cert = response.data
-    //const key = cert.keys[0].x5c[0]
-    const key = cert.keys.filter((key) => key.kid === jwt.header.kid)[0]
-
-    const constructedCert = `-----BEGIN CERTIFICATE-----\n${key.x5c[0]}\n-----END CERTIFICATE-----`
-
-    // TODO: Implement token verification
-    // You should implement it similarly to how it was implemented for the exercise for the lesson 5
-    // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
-    return verify(token, constructedCert, { algorithms: ['RS256'] }) as JwtToken
   }
-  else return Promise.reject(`Error in getting the certificate ${response.status} ${response.statusText}`)
+
+  return verify(
+    token,
+    `-----BEGIN CERTIFICATE-----\n${jwksKey["x5c"][0]}\n-----END CERTIFICATE-----\n`,
+    { algorithms: ['RS256'] }
+  ) as JwtPayload
 }
 
 function getToken(authHeader: string): string {
