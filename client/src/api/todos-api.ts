@@ -29,7 +29,7 @@ export async function createTodo(
   })
 
   console.log("create todo", response.data)
-  return response.data
+  return response.data.item
 }
 
 export async function patchTodo(

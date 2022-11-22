@@ -43,7 +43,7 @@ export async function createTodo(
       name: createTodoRequest.name,
       dueDate: createTodoRequest.dueDate,
       done: false,
-      attachmentUrl: `https://${AttachmentUtils.bucketName}.s3.amazonaws.com/${itemId}`
+
     })
   } catch (error) {
     createError(error);
