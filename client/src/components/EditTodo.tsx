@@ -55,7 +55,7 @@ export class EditTodo extends React.PureComponent<
         this.props.auth.getIdToken(),
         this.props.match.params.todoId
       )
-
+      const query = new URLSearchParams(window.location.search)
       this.setUploadState(UploadState.UploadingFile)
       await uploadFile(signedUploadUrl, this.state.file)
       await patchTodo(
@@ -63,9 +63,9 @@ export class EditTodo extends React.PureComponent<
         this.props.match.params.todoId,
         {
           attachmentUrl: filePath,
-          done: true,
-          dueDate: '2020-01-01',
-          name: 'test'
+          done: query.get('done') === 'true',
+          dueDate: query.get('dueDate') as string,
+          name: query.get('name') as string
         }
       )
       alert('File was uploaded!')

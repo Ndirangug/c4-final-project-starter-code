@@ -63,7 +63,7 @@ export class TodosAccess {
         ':done': todo.done,
         ':attachmentUrl': todo.attachmentUrl
       },
-      UpdateExpression: 'SET #todo_name = :name, dueDate = :dueDate, done = :done',
+      UpdateExpression: 'SET #todo_name = :name, dueDate = :dueDate, done = :done, attachmentUrl = :attachmentUrl',
       ReturnValues: 'ALL_NEW',
     }).promise()
 

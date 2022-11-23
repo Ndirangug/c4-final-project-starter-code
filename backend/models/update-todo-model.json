@@ -12,6 +12,9 @@
     },
     "done": {
       "type": "boolean"
+    },
+    "attachmentUrl": {
+      "type": "string"
     }
   },
   "required": [

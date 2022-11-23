@@ -40,8 +40,10 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
     this.setState({ newTodoName: event.target.value })
   }
 
-  onEditButtonClick = (todoId: string) => {
-    this.props.history.push(`/todos/${todoId}/edit`)
+  onEditButtonClick = (todo: Todo) => {
+    this.props.history.push(
+      `/todos/${todo.todoId}/edit?name=${todo.name}&dueDate=${todo.dueDate}&done=${todo.done}`
+    )
   }
 
   onTodoCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
@@ -167,7 +169,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
     return (
       <Grid padded>
         {this.state.todos?.map((todo, pos) => {
-          console.log('todos to render', todo)
+          //console.log('todos to render', todo)
           return (
             <Grid.Row key={todo.todoId}>
               <Grid.Column width={1} verticalAlign="middle">
@@ -186,7 +188,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.onEditButtonClick(todo.todoId)}
+                  onClick={() => this.onEditButtonClick(todo)}
                 >
                   <Icon name="pencil" />
                 </Button>
