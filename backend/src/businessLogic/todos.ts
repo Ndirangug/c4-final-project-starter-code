@@ -43,6 +43,7 @@ export async function createTodo(
       name: createTodoRequest.name,
       dueDate: createTodoRequest.dueDate,
       done: false,
+      attachmentUrl: null
 
     })
   } catch (error) {

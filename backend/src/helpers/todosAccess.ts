@@ -61,6 +61,7 @@ export class TodosAccess {
         ':name': todo.name,
         ':dueDate': todo.dueDate,
         ':done': todo.done,
+        ':attachmentUrl': todo.attachmentUrl
       },
       UpdateExpression: 'SET #todo_name = :name, dueDate = :dueDate, done = :done',
       ReturnValues: 'ALL_NEW',

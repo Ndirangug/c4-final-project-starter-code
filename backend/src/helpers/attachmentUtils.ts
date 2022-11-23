@@ -17,11 +17,13 @@ export class AttachmentUtils {
 
   async getUploadUrl(imageId: string) {
     logger.info("Getting a presigned url");
-    return this.s3Client.getSignedUrl('putObject', {
+    const signedUploadUrl = this.s3Client.getSignedUrl('putObject', {
       Bucket: AttachmentUtils.bucketName,
       Key: imageId,
       Expires: this.urlExpiration,
     })
+    const filePath = "https://" + AttachmentUtils.bucketName + ".s3.amazonaws.com/" + imageId;
+    return { signedUploadUrl, filePath };
   }
 
 }
